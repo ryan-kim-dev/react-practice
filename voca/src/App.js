@@ -1,12 +1,12 @@
-import './App.css';
-
-import Tweets from './pages/Tweets';
-
-// import { useState } from 'react';
+import DayList from './component/DayList';
+import Header from './component/Header';
+import Day from './component/Day';
 function App() {
   return (
     <div className="App">
-      <Tweets />
+      <Header />
+      <DayList />
+      <Day />
     </div>
   );
 }
