@@ -1,6 +1,6 @@
 import dummy from '../database/data.json';
 import { useParams } from 'react-router-dom';
-
+import Word from './Word';
 export default function Day() {
   // dummy.words 의 .day, .eng, .kor, .isDone 받아와야 함.
   // filter 메서드로 각 day에 할당된 단어만 받아오기
@@ -15,10 +15,7 @@ export default function Day() {
       <table>
         <tbody>
           {wordList.map(word => (
-            <tr key={word.id}>
-              <td>{word.eng}</td>
-              <td>{word.kor}</td>
-            </tr>
+            <Word word={word} key={word.id} />
           ))}
         </tbody>
       </table>
