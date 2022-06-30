@@ -12,9 +12,11 @@ const AppBlock = styled.div`
 
 function App() {
   return (
-    <AppBlock>
-      <Button>버튼이다</Button>
-    </AppBlock>
+    <div>
+      <AppBlock>
+        <Button>버튼이다</Button>
+      </AppBlock>
+    </div>
   );
 }
 
