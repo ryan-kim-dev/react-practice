@@ -13,6 +13,13 @@ const Counter = () => {
   const incrementHandler = () => {
     dispatch({ type: '증가' });
   };
+
+  const increaseHandler = () => {
+    // 실제 프로그램이라면 유저의 인풋값을 받아오겠지만,
+    // 연습예제이므로 우선 amount: 5 로 payload 하드코딩.
+    dispatch({ type: '가변적인증가', amount: 5 });
+  };
+
   const decrementHandler = () => {
     dispatch({ type: '감소' });
   };
@@ -25,6 +32,7 @@ const Counter = () => {
       <div className={classes.value}>{counter}</div>
       <div className="counter">
         <button onClick={incrementHandler}>증가</button>
+        <button onClick={increaseHandler}>5씩 증가</button>
         <button onClick={decrementHandler}>감소</button>
       </div>
       <button onClick={toggleCounterHandler}>Toggle Counter</button>

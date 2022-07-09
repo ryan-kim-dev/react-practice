@@ -1,19 +1,24 @@
 import { createStore } from 'redux';
 
-function counterReducer(initialState = { counter: 0 }, action) {
+function counterReducer(state = { counter: 0 }, action) {
   switch (action.type) {
     case '증가':
       return {
-        counter: initialState.counter + 1,
+        counter: state.counter + 1,
+      };
+
+    case '가변적인증가':
+      return {
+        counter: state.counter + action.amount,
       };
 
     case '감소':
       return {
-        counter: initialState.counter - 1,
+        counter: state.counter - 1,
       };
 
     default:
-      return initialState; // { counter: 0 }
+      return state; // { counter: 0 }
   }
 }
 
