@@ -5,28 +5,12 @@ const TitleInput = styled.input`
   display: block;
 `;
 
-const Upload = () => {
-  const [contentList, setContentList] = useState([]);
-  const [currentTitle, setCurrentTitle] = useState('');
-
-  const [isPosted, setIsPosted] = useState(false);
-
-  const handleInput = e => {
-    if (e.target.value.length !== 0) {
-      setCurrentTitle(e.target.value);
-    }
-  };
-
-  const handleSubmitBtn = e => {
-    if (currentTitle.length !== 0) {
-      e.preventDefault();
-      const newContent = [...contentList, currentTitle];
-      setContentList(newContent);
-      setIsPosted(!isPosted);
-      setCurrentTitle('');
-    }
-  };
-
+const Upload = ({
+  handleInput,
+  currentTitle,
+  setCurrentTitle,
+  handleSubmitBtn,
+}) => {
   return (
     <>
       <form className="container">
