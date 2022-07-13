@@ -31,13 +31,17 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-app.post('/api/test', (req, res) => {
-  const communityPost = new Post({
-    title: '글제목이다',
-    content: '글내용이다',
-  });
+app.post('/api/post/submit', (req, res) => {
+  let temp = req.body;
+
+  const communityPost = new Post(temp);
   // .save() 없으면 db로 데이터 안넘어옴!!
-  communityPost.save().then(() => {
-    res.status(200).json({ success: true, text: 'hi' });
-  });
+  communityPost
+    .save()
+    .then(() => {
+      res.status(200).json({ success: true, text: 'hi' });
+    })
+    .catch(err => {
+      res.status(400).json({ success: false });
+    });
 });

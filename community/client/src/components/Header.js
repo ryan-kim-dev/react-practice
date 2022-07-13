@@ -59,7 +59,7 @@ const Header = () => {
           onClick={() => handleSelected(2)}
           className={isSelected === 2 ? 'list selected' : 'list'}
         >
-          <Link to="/list" className="link-text">
+          <Link to="/" className="link-text">
             게시판
           </Link>
         </div>

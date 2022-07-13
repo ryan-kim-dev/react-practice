@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import GlobalStyle from './components/GlobalStyle';
-import Upload from './components/Upload';
+import Upload from './components/Post/Upload';
 import Header from './components/Header';
-import List from './components/List';
+import List from './components/Post/List';
 
 function App() {
   const [contentList, setContentList] = useState([]);
@@ -44,7 +44,7 @@ function App() {
           }
         />
         <Route
-          path="/list"
+          path="/"
           element={
             <List contentList={contentList} setContentList={setContentList} />
           }
