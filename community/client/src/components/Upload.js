@@ -30,9 +30,17 @@ const TextArea = styled.div`
 `;
 
 const SubmitButton = styled.button`
+  width: 100px;
+  height: 25px;
+  border: none;
+  border-radius: 7px;
   margin-top: 10px;
   display: block;
-  background-color: skyblue;
+  background-color: #7d9d9c;
+  color: #fff;
+  &:hover {
+    background-color: #576f72;
+  }
 `;
 
 const Upload = ({
@@ -55,7 +63,6 @@ const Upload = ({
         <label htmlFor="article-body">글내용</label>
       </TextArea>
       <textarea id="article-body" />
-
       <SubmitButton onClick={handleSubmitBtn}>제출</SubmitButton>
     </ContainerForm>
   );
