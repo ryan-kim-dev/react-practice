@@ -1,5 +1,9 @@
 const express = require('express');
-const argon2 = require('argon2');
+const argon2 = require('argon2'); // 암호화 알고리즘
+const jwt = require('jsonwebtoken'); // 토큰
+const cookieParser = require('cookie-parser');
+const { validUser } = require('./middleware/auth');
+const database = require('./database');
 const app = express();
 
 // 더미 db
@@ -8,11 +12,12 @@ const app = express();
 //   { id: 2, title: '글2' },
 //   { id: 3, title: '글3' },
 // ];
-const database = [{ id: 1, username: 'abc', password: 'abc' }];
 
-// bodyParser 사용하기
+// * bodyParser 사용하기 : 클라이언트의 입력 값 파싱
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+//* cookie-parser 사용하기 : 클라이언트의 토큰 값에 접근
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
   // sendFile 말고 render 메서드로도 페이지를 보낼 수 있다. (ejs, pug 검색)
@@ -83,6 +88,11 @@ app.post('/signup', async (req, res) => {
   res.send('회원가입 성공');
 });
 
+// * 인증된 사용자만(로그인 o, 토큰 o) 쓸 수 있는 api 만들기
+app.get('/mypage', validUser, (req, res) => {
+  res.send('인증된 사용자만 접근가능한 마이페이지');
+});
+
 // * 로그인 api 만들기 + 비밀번호 검증
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
@@ -93,6 +103,13 @@ app.post('/login', async (req, res) => {
   if (!(await argon2.verify(user[0].password, password))) {
     return res.status(403).send('비밀번호가 틀립니다.');
   }
+  // * 로그인 성공 시 토큰 발급하여 클라이언트로 보내기
+  // 엑세스 토큰에 username 정보를 담아서 클라이언트에 쿠키로 보낸다
+  const access_token = jwt.sign({ username }, 'secure');
+  // console.log(access_token);
+  res.cookie('access_token', access_token, {
+    httpOnly: true,
+  }); // 쿠키에 엑세스 토큰 담아서 보내기
   res.send('로그인 성공.');
 });
 
