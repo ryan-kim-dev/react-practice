@@ -5,6 +5,7 @@ import GlobalStyle from './components/GlobalStyle';
 import Upload from './components/Post/Upload';
 import Header from './components/Header';
 import List from './components/Post/List';
+import Login from './components/Login';
 
 function App() {
   const [contentList, setContentList] = useState([]);
@@ -31,6 +32,7 @@ function App() {
     <div>
       <GlobalStyle />
       <Header />
+      <Login />
       <Routes>
         <Route
           path="/upload"
