@@ -21,33 +21,42 @@ function App() {
   // * 낫싱 : 반복문 종료하고 if strike === 0 && ball === 0 이면 낫싱
 
   // * input 이벤트 핸들러
-  let a = 1;
 
   const handleInputChange = e => {
-    setPlayer(e.target.value);
-    if (player.length >= 4) {
+    // * e.target.value는 바로 바뀌는데 state는 바뀌는데 딜레이가 있는거 왜????
+
+    if (e.target.value.length === 4) {
+      e.target.value = '';
       setPlayer('');
-      return alert('3자리의 숫자만 입력하세요');
+      console.log(player);
+      alert('3자리의 숫자만 입력하세요');
     }
     if (isNaN(e.target.value)) {
+      e.target.value = '';
       alert('올바른 값이 아닙니다');
-      a += 1;
-      return setPlayer('');
-    }
-  };
 
-  console.log(a);
+      setPlayer('');
+    }
+    if (e.target.value.length !== [...new Set(e.target.value)].length) {
+      e.target.value = '';
+      alert('중복된 숫자입니다');
+      setPlayer('');
+    }
+    setPlayer(e.target.value);
+  };
 
   // * buttonClick 이벤트 핸들러
   const handleButtonClick = e => {
+    e.preventDefault();
     let strike = 0;
     let ball = 0;
 
-    e.preventDefault();
-
     for (let i = 0; i < answer.length; i++) {
-      if (answer[i] === player[i]) strike += 1;
-      if (player.includes(answer[i])) ball += 1;
+      if (answer[i] === Number(player[i])) {
+        strike += 1;
+      } else if (player.includes(String(answer[i]))) {
+        ball += 1;
+      }
     }
 
     // 반복문 종료 후 비교하기
@@ -60,11 +69,27 @@ function App() {
     if (strike === 3 && result === '') {
       setResult('승리');
       setIsAnswer(true);
+
+      return;
+    }
+
+    if (!ball) {
+      setResult(`${strike}스트라이크`);
+      return;
+    }
+    if (!strike) {
+      setResult(`${ball}볼`);
       return;
     }
 
     // 그 외의 경우
     setResult(`${ball}볼 ${strike}스트라이크`);
+  };
+
+  const handleRestart = () => {
+    if (window.confirm('재시작하시겠습니까?')) {
+      window.location.reload();
+    }
   };
 
   return (
@@ -92,7 +117,11 @@ function App() {
       </form>
       <h3>📄 결과</h3>
       <div id="result">{result}</div>
-      {isAnswer ? <button id="game-restart-button">재시작</button> : null}
+      {isAnswer ? (
+        <button id="game-restart-button" onClick={handleRestart}>
+          재시작
+        </button>
+      ) : null}
     </div>
   );
 }
