@@ -1,7 +1,10 @@
 const express = require('express');
-
 const app = express();
-// 바디파서 사용
+const cors = require('cors'); // cors 라이브러리 import
+
+// * cors 라이브러리 사용
+app.use(cors());
+// * 바디파서 사용
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
@@ -22,13 +25,14 @@ app.get('/api/todo', function (req, res) {
 
 // POST 요청 처리
 app.post('/api/todo', function (req, res) {
+  console.log(req.body);
   const { text, done } = req.body;
   todoList.push({
     id: id++,
     text,
     done,
   });
-  return res.send('데이터 추가 POST요청 처리 성공');
+  return res.status(200).json(todoList);
 });
 
 app.listen(3001, () => {
